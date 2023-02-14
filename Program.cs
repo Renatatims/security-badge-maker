@@ -43,7 +43,9 @@ namespace CatWorx.BadgeMaker
             return employees;
         }
 
-        //PrintEmployees - method
+        //***REMOVE**PrintEmployees - method*** Included this method in Utils.cs
+        
+        /*REMOVE
         static void PrintEmployees(List<Employee> employees)
         {
             for (int i = 0; i < employees.Count; i++)
@@ -54,14 +56,15 @@ namespace CatWorx.BadgeMaker
                 Console.WriteLine(String.Format(template, employees[i].GetId(), employees[i].GetFullName(), employees[i].GetPhotoUrl()));
             }
         }
+        */
 
         //Main
         static void Main(string[] args)
         {
             // GetEmployees and PrintEmployees method calls
             List<Employee> employees = GetEmployees();
-            PrintEmployees(employees);
-
+            //**REMOVE***PrintEmployees(employees);
+            Util.PrintEmployees(employees);
 
         }
 
