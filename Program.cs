@@ -4,7 +4,7 @@ namespace CatWorx.BadgeMaker
 {
     class Program
     {
-        
+
         //GetEmployees - method
         static List<string> GetEmployees()
         {
@@ -21,7 +21,9 @@ namespace CatWorx.BadgeMaker
                 {
                     break;
                 }
-                employees.Add(input);
+                // Create a new Employee instance
+                Employee currentEmployee = new Employee(input, "LastName");
+                employees.Add(currentEmployee.GetFullName());
             }
             // Returns Employees List
             return employees;
@@ -30,7 +32,7 @@ namespace CatWorx.BadgeMaker
         //PrintEmployees - method
         static void PrintEmployees(List<string> employees)
         {
-        for (int i = 0; i < employees.Count; i++)
+            for (int i = 0; i < employees.Count; i++)
             {
                 Console.WriteLine(employees[i]);
             }
@@ -43,7 +45,7 @@ namespace CatWorx.BadgeMaker
             List<string> employees = GetEmployees();
             PrintEmployees(employees);
 
-            
+
         }
 
     }
