@@ -65,6 +65,8 @@ namespace CatWorx.BadgeMaker
             List<Employee> employees = GetEmployees();
             //**REMOVE***PrintEmployees(employees);
             Util.PrintEmployees(employees);
+            //MakeCSV - method call
+            Util.MakeCSV(employees);
 
         }
 
