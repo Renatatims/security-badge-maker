@@ -2,7 +2,9 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Net.Http;
 using SkiaSharp;
+using System.Threading.Tasks;
 
 namespace CatWorx.BadgeMaker
 {
@@ -44,15 +46,22 @@ namespace CatWorx.BadgeMaker
         }
 
         //MakeBadges - generate the badges template with the employee data
-        public static void MakeBadges(List<Employee> employees)
+        async public static Task MakeBadges(List<Employee> employees)
         {
-            //Create Image
-            SKImage newImage = SKImage.FromEncodedData(File.OpenRead("badge.png"));
+            // using - instance of HttpClient is disposed after code in the block has run
+            using (HttpClient client = new HttpClient())
+            {
+                for (int i = 0; i < employees.Count; i++)
+                {
+                    //Get Photo Url for each employee - then converting the Stream into a SKImage
+                    SKImage photo = SKImage.FromEncodedData(await client.GetStreamAsync(employees[i].GetPhotoUrl()));
 
-            SKData data = newImage.Encode();
-            //Save image to data directory on a png file
-            data.SaveTo(File.OpenWrite("data/employeeBadge.png"));
+                    SKData data = photo.Encode();
+                    //Save image to data directory on a png file
+                    data.SaveTo(File.OpenWrite("data/employeeBadge.png"));
+                }
+            }
+
         }
-
     }
 }
