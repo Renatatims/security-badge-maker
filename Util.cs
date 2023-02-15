@@ -61,6 +61,10 @@ namespace CatWorx.BadgeMaker
             //Company Name
             int COMPANY_NAME_Y = 150;
 
+            //Employee Info - Full name and Id
+            int EMPLOYEE_NAME_Y = 600;
+            int EMPLOYEE_ID_Y = 730;
+
             // using - instance of HttpClient is disposed after code in the block has run
             using (HttpClient client = new HttpClient())
             {
@@ -96,12 +100,25 @@ namespace CatWorx.BadgeMaker
                     // Company name
                     canvas.DrawText(employees[i].GetCompanyName(), BADGE_WIDTH / 2f, COMPANY_NAME_Y, paint);
 
+                    //Employee Name color Black
+                    paint.Color = SKColors.Black;
+
+                    // Employee name
+                    canvas.DrawText(employees[i].GetFullName(), BADGE_WIDTH / 2f, EMPLOYEE_NAME_Y, paint);
+
+                    //Employee Id - font Courier
+                    paint.Typeface = SKTypeface.FromFamilyName("Courier");
+
+                    //Employee Id
+                    canvas.DrawText(employees[i].GetId().ToString(), BADGE_WIDTH / 2f, EMPLOYEE_ID_Y, paint);
+
                     // Final Image
                     SKImage finalImage = SKImage.FromBitmap(badge);
                     SKData data = finalImage.Encode();
 
                     //Save image to data directory on a png file
-                    data.SaveTo(File.OpenWrite("data/employeeBadge.png"));
+                    string template = "data/{0}_badge.png";
+                    data.SaveTo(File.OpenWrite(string.Format(template, employees[i].GetId())));
                 }
             }
 
