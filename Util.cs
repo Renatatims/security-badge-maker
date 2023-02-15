@@ -58,6 +58,9 @@ namespace CatWorx.BadgeMaker
             int PHOTO_RIGHT_X = 486;
             int PHOTO_BOTTOM_Y = 517;
 
+            //Company Name
+            int COMPANY_NAME_Y = 150;
+
             // using - instance of HttpClient is disposed after code in the block has run
             using (HttpClient client = new HttpClient())
             {
@@ -81,9 +84,22 @@ namespace CatWorx.BadgeMaker
                     //Insert employee photo
                     canvas.DrawImage(photo, new SKRect(PHOTO_LEFT_X, PHOTO_TOP_Y, PHOTO_RIGHT_X, PHOTO_BOTTOM_Y));
 
+                    //SKPaint object setup - properties
+                    SKPaint paint = new SKPaint();
+                    paint.TextSize = 42.0f;
+                    paint.IsAntialias = true;
+                    paint.Color = SKColors.White;
+                    paint.IsStroke = false;
+                    paint.TextAlign = SKTextAlign.Center;
+                    paint.Typeface = SKTypeface.FromFamilyName("Arial");
+
+                    // Company name
+                    canvas.DrawText(employees[i].GetCompanyName(), BADGE_WIDTH / 2f, COMPANY_NAME_Y, paint);
+
                     // Final Image
                     SKImage finalImage = SKImage.FromBitmap(badge);
                     SKData data = finalImage.Encode();
+
                     //Save image to data directory on a png file
                     data.SaveTo(File.OpenWrite("data/employeeBadge.png"));
                 }
