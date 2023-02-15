@@ -5,10 +5,10 @@ namespace CatWorx.BadgeMaker
     class Program
     {
 
-        //GetEmployees - method
+        // GetEmployees - method
         static List<Employee> GetEmployees()
         {
-            //Handles Employee instances
+            // Handles Employee instances
             List<Employee> employees = new List<Employee>();
             // Collect user values until the value is an empty string
             while (true)
@@ -43,30 +43,20 @@ namespace CatWorx.BadgeMaker
             return employees;
         }
 
-        //***REMOVE**PrintEmployees - method*** Included this method in Utils.cs
-        
-        /*REMOVE
-        static void PrintEmployees(List<Employee> employees)
-        {
-            for (int i = 0; i < employees.Count; i++)
-            {
-                //Template spacing information 
-                string template = "{0,-1}\t{1,-5}\t{2}";
-                //Prints in the console - Employee ID, Full name (First and Last) and Photo Url
-                Console.WriteLine(String.Format(template, employees[i].GetId(), employees[i].GetFullName(), employees[i].GetPhotoUrl()));
-            }
-        }
-        */
-
-        //Main
+        // Main
         static void Main(string[] args)
         {
-            // GetEmployees and PrintEmployees method calls
+            // GetEmployees method call
             List<Employee> employees = GetEmployees();
-            //**REMOVE***PrintEmployees(employees);
+
+            // PrintEmployees method call
             Util.PrintEmployees(employees);
-            //MakeCSV - method call
+
+            // MakeCSV - method call
             Util.MakeCSV(employees);
+
+            // Make Badges - method call
+            Util.MakeBadges(employees);
 
         }
 

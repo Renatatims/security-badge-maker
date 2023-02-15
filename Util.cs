@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using SkiaSharp;
 
 namespace CatWorx.BadgeMaker
 {
@@ -41,5 +42,17 @@ namespace CatWorx.BadgeMaker
                 }
             }
         }
+
+        //MakeBadges - generate the badges template with the employee data
+        public static void MakeBadges(List<Employee> employees)
+        {
+            //Create Image
+            SKImage newImage = SKImage.FromEncodedData(File.OpenRead("badge.png"));
+
+            SKData data = newImage.Encode();
+            //Save image to data directory on a png file
+            data.SaveTo(File.OpenWrite("data/employeeBadge.png"));
+        }
+
     }
 }
