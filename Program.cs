@@ -11,9 +11,9 @@ namespace CatWorx.BadgeMaker
         async static Task Main(string[] args)
         {
             // GetEmployees method call
-            List<Employee> employees = PeopleFetcher.GetEmployees();
+            //List<Employee> employees = PeopleFetcher.GetEmployees();
             //Testing the API
-            //List<Employee> employees = PeopleFetcher.GetFromApi();
+            List<Employee> employees = await PeopleFetcher.GetFromApi();
 
             // PrintEmployees method call
             Util.PrintEmployees(employees);
