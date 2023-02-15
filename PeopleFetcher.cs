@@ -54,16 +54,36 @@ namespace CatWorx.BadgeMaker
             using (HttpClient client = new HttpClient())
             {
                 string response = await client.GetStringAsync("https://randomuser.me/api/?results=10&nat=us&inc=name,id,picture");
-                //Testing the app:
-                //Console.Write(response);
+
+                /**Testing the app:
+                //Console.Write(response);*/
+
                 JObject json = JObject.Parse(response);
-                //Testing the app:
+                
+                /**Testing the app:
                 Console.WriteLine(json.SelectToken("results[0].name.first"));
                 Console.WriteLine(json.SelectToken("results[1].name.first"));
-                Console.WriteLine(json.SelectToken("results[2].name.first"));
+                Console.WriteLine(json.SelectToken("results[2].name.first"));*/
+
+
+                //"person" is a new JObject derived from "results[i]"
+                //person.SelectToken("name.first")
+
+                foreach (JToken token in json.SelectToken("results")!)
+                {
+                    // Parse JSON data
+                    Employee emp = new Employee
+                    (
+                      token.SelectToken("name.first")!.ToString(),
+                      token.SelectToken("name.last")!.ToString(),
+                      Int32.Parse(token.SelectToken("id.value")!.ToString().Replace("-", "")),
+                      token.SelectToken("picture.large")!.ToString()
+                    );
+                    employees.Add(emp);
+                }
             }
             return employees;
-            
+
         }
     }
 }
