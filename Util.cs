@@ -48,6 +48,16 @@ namespace CatWorx.BadgeMaker
         //MakeBadges - generate the badges template with the employee data
         async public static Task MakeBadges(List<Employee> employees)
         {
+            // Layout variables - pixel values
+            int BADGE_WIDTH = 669;
+            int BADGE_HEIGHT = 1044;
+
+            //Employee Photo
+            int PHOTO_LEFT_X = 184;
+            int PHOTO_TOP_Y = 215;
+            int PHOTO_RIGHT_X = 486;
+            int PHOTO_BOTTOM_Y = 517;
+
             // using - instance of HttpClient is disposed after code in the block has run
             using (HttpClient client = new HttpClient())
             {
@@ -56,7 +66,24 @@ namespace CatWorx.BadgeMaker
                     //Get Photo Url for each employee - then converting the Stream into a SKImage
                     SKImage photo = SKImage.FromEncodedData(await client.GetStreamAsync(employees[i].GetPhotoUrl()));
 
-                    SKData data = photo.Encode();
+                    //SKImage background
+                    SKImage background = SKImage.FromEncodedData(File.OpenRead("badge.png"));
+
+                    //Badge - width and height
+                    SKBitmap badge = new SKBitmap(BADGE_WIDTH, BADGE_HEIGHT);
+
+                    //SKCanvas object - wrapper around the badge bitmap - allows direct graphical modifications to the badge
+                    SKCanvas canvas = new SKCanvas(badge);
+
+                    //SKRectangular - allocates a postion and size on the badge
+                    canvas.DrawImage(background, new SKRect(0, 0, BADGE_WIDTH, BADGE_HEIGHT));
+
+                    //Insert employee photo
+                    canvas.DrawImage(photo, new SKRect(PHOTO_LEFT_X, PHOTO_TOP_Y, PHOTO_RIGHT_X, PHOTO_BOTTOM_Y));
+
+                    // Final Image
+                    SKImage finalImage = SKImage.FromBitmap(badge);
+                    SKData data = finalImage.Encode();
                     //Save image to data directory on a png file
                     data.SaveTo(File.OpenWrite("data/employeeBadge.png"));
                 }
