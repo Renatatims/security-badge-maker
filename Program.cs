@@ -11,35 +11,46 @@ namespace CatWorx.BadgeMaker
         async static Task Main(string[] args)
         {
             List<Employee> employees;
-            Console.WriteLine("Would you like to input the data to generate the badges?");
-            string response = Console.ReadLine() ?? "";
-            if (response == "y")
+            //Initial Prompt
+            Console.WriteLine("Please select an option to generate the badges:");
+            //Menu options
+            Console.WriteLine("\t1 - Manually input employee's data");
+            Console.WriteLine("\t2 - Get data from an API - 10 random badges will be generated");
+
+            //Switch case
+            switch (Console.ReadLine() ?? "")
             {
-                // GetEmployees method call
-                employees = PeopleFetcher.GetEmployees();
+                case "1":
+                    // GetEmployees method call
+                    employees = PeopleFetcher.GetEmployees();
 
-                // PrintEmployees method call
-                Util.PrintEmployees(employees);
+                    // PrintEmployees method call
+                    Util.PrintEmployees(employees);
 
-                // MakeCSV - method call
-                Util.MakeCSV(employees);
+                    // MakeCSV - method call
+                    Util.MakeCSV(employees);
 
-                // Make Badges - method call - asynchronous
-                await Util.MakeBadges(employees);
-            }
-            if (response == "n")
-            {
-                //GetFromApi method call
-                employees = await PeopleFetcher.GetFromApi();
+                    // Make Badges - method call - asynchronous
+                    await Util.MakeBadges(employees);
 
-                // PrintEmployees method call
-                Util.PrintEmployees(employees);
+                    break;
 
-                // MakeCSV - method call
-                Util.MakeCSV(employees);
+                case "2":
 
-                // Make Badges - method call - asynchronous
-                await Util.MakeBadges(employees);
+                    //GetFromApi method call
+                    employees = await PeopleFetcher.GetFromApi();
+
+                    // PrintEmployees method call
+                    Util.PrintEmployees(employees);
+
+                    // MakeCSV - method call
+                    Util.MakeCSV(employees);
+
+                    // Make Badges - method call - asynchronous
+                    await Util.MakeBadges(employees);
+
+                    break;
+
             }
         }
     }
